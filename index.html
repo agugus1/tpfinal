@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b1220" />
+  <title>Portfolio GitHub | agugus1</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: {
+        colors: {
+          ink: '#0b1220', panel: '#111c2e', line: '#223149',
+          muted: '#91a0b8', accent: '#7c9cff', mint: '#5eead4'
+        },
+        boxShadow: { glow: '0 18px 55px rgba(0,0,0,.28)' }
+      }}
+    };
+  </script>
+  <style>
+    * { scrollbar-width: thin; scrollbar-color: #334155 transparent; }
+    body { background: radial-gradient(circle at 78% -10%, rgba(70,102,180,.18), transparent 30%), #0b1220; }
+    .glass { background: rgba(17,28,46,.82); backdrop-filter: blur(14px); }
+    .repo-card { transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
+    .repo-card:hover { transform: translateY(-4px); border-color: rgba(124,156,255,.55); box-shadow: 0 18px 45px rgba(0,0,0,.22); }
+    .active-filter { background: rgba(124,156,255,.14); color: #c9d5ff; border-color: rgba(124,156,255,.35); }
+    .clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .fade-in { animation: fade .35s ease both; }
+    @keyframes fade { from { opacity:0; transform:translateY(8px) } to { opacity:1; transform:translateY(0) } }
+  </style>
+</head>
+<body class="min-h-screen text-slate-100 antialiased">
+  <div class="min-h-screen lg:flex">
+    <!-- Sidebar -->
+    <aside class="glass border-b lg:border-b-0 lg:border-r border-line/80 lg:fixed lg:inset-y-0 lg:left-0 lg:z-20 lg:flex lg:w-72 lg:flex-col">
+      <div class="flex items-center justify-between px-6 py-5 lg:block">
+        <a href="#" class="flex items-center gap-3">
+          <div class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-accent to-indigo-500 text-lg font-black shadow-lg shadow-indigo-900/40">a.</div>
+          <div><p class="font-semibold tracking-wide">agugus1</p><p class="text-xs text-muted">Developer portfolio</p></div>
+        </a>
+        <span class="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-emerald-300 lg:hidden">Portfolio</span>
+      </div>
+
+      <div class="px-6 pb-5 lg:pt-5">
+        <div class="flex items-center gap-3 rounded-2xl border border-line bg-ink/50 p-3">
+          <img id="avatar" src="https://github.com/agugus1.png" alt="Avatar de agugus1" class="h-12 w-12 rounded-xl border border-line object-cover" />
+          <div class="min-w-0"><p class="truncate text-sm font-semibold">Agustín Cejas</p><p class="text-xs text-muted">@agugus1 · GitHub</p></div>
+          <span class="ml-auto h-2 w-2 rounded-full bg-emerald-400 ring-4 ring-emerald-400/10" title="Perfil público"></span>
+        </div>
+      </div>
+
+      <nav class="px-4 pb-4">
+        <p class="px-3 pb-2 text-[10px] font-bold uppercase tracking-[.18em] text-slate-500">Navegación</p>
+        <a href="#overview" class="mb-1 flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-300 transition hover:bg-white/5 hover:text-white">
+          <span class="text-accent">◫</span> Resumen general
+        </a>
+        <a href="#repositories" class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-300 transition hover:bg-white/5 hover:text-white">
+          <span class="text-accent">▦</span> Repositorios
+        </a>
+      </nav>
+
+      <div class="px-4 pb-4">
+        <div class="mb-2 flex items-center justify-between px-3">
+          <p class="text-[10px] font-bold uppercase tracking-[.18em] text-slate-500">Categorías</p>
+          <span id="categoryCount" class="text-[10px] text-slate-500">16 proyectos</span>
+        </div>
+        <div id="filters" class="grid grid-cols-2 gap-1.5 lg:grid-cols-1"></div>
+      </div>
+
+      <div class="mt-auto hidden border-t border-line/80 p-5 lg:block">
+        <div class="rounded-2xl border border-line bg-gradient-to-br from-indigo-500/10 to-transparent p-4">
+          <p class="text-xs font-semibold text-slate-200">Explorá el código</p>
+          <p class="mt-1 text-xs leading-5 text-muted">Todos los proyectos están disponibles en el perfil público de GitHub.</p>
+          <a href="https://github.com/agugus1" target="_blank" rel="noopener noreferrer" class="mt-3 inline-flex items-center gap-2 text-xs font-semibold text-accent hover:text-white">Abrir perfil <span>↗</span></a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="min-w-0 flex-1 lg:ml-72">
+      <header class="sticky top-0 z-10 border-b border-line/80 bg-ink/80 backdrop-blur-xl">
+        <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-5 py-4 sm:px-8">
+          <div><p class="text-xs text-muted">PORTFOLIO / GITHUB</p><h1 class="mt-0.5 text-lg font-bold tracking-tight sm:text-xl">Panel de proyectos</h1></div>
+          <div class="flex items-center gap-2">
+            <span id="syncStatus" class="flex items-center gap-2 rounded-full border border-line bg-panel px-3 py-2 text-[11px] text-muted"><span class="h-1.5 w-1.5 rounded-full bg-amber-400"></span> Datos locales</span>
+            <a href="https://github.com/agugus1" target="_blank" rel="noopener noreferrer" class="rounded-xl bg-white px-3.5 py-2 text-xs font-bold text-ink transition hover:bg-indigo-100">GitHub ↗</a>
+          </div>
+        </div>
+      </header>
+
+      <div class="mx-auto max-w-7xl px-5 py-8 sm:px-8">
+        <section id="overview" class="fade-in">
+          <div class="mb-7">
+            <div class="mb-3 inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/10 px-3 py-1.5 text-[11px] font-medium text-indigo-200"><span class="h-1.5 w-1.5 rounded-full bg-mint"></span> Espacio de trabajo personal</div>
+            <h2 class="max-w-3xl text-3xl font-bold leading-tight tracking-tight sm:text-4xl">Ideas que se convierten<br class="hidden sm:block" /> en <span class="bg-gradient-to-r from-accent to-mint bg-clip-text text-transparent">proyectos reales.</span></h2>
+            <p class="mt-3 max-w-2xl text-sm leading-6 text-muted">Un recorrido por los repositorios de <span class="font-medium text-slate-300">agugus1</span>: programación, visualización de datos, desarrollo web y experiencias con hardware.</p>
+          </div>
+
+          <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            <div class="rounded-2xl border border-line bg-panel/80 p-4 shadow-glow"><div class="flex items-center justify-between"><p class="text-xs text-muted">Repositorios</p><span class="text-accent">▦</span></div><p id="totalRepos" class="mt-3 text-3xl font-bold tabular-nums">16</p><p class="mt-1 text-[11px] text-slate-500">Proyectos en el portfolio</p></div>
+            <div class="rounded-2xl border border-line bg-panel/80 p-4"><div class="flex items-center justify-between"><p class="text-xs text-muted">Destacados</p><span class="text-amber-300">✦</span></div><p class="mt-3 text-3xl font-bold tabular-nums">2</p><p class="mt-1 text-[11px] text-slate-500">Proyectos para explorar</p></div>
+            <div class="rounded-2xl border border-line bg-panel/80 p-4"><div class="flex items-center justify-between"><p class="text-xs text-muted">Áreas de trabajo</p><span class="text-mint">⌘</span></div><p class="mt-3 text-3xl font-bold tabular-nums">5</p><p class="mt-1 text-[11px] text-slate-500">Categorías principales</p></div>
+            <div class="rounded-2xl border border-line bg-panel/80 p-4"><div class="flex items-center justify-between"><p class="text-xs text-muted">Lenguajes / tecnologías</p><span class="text-violet-300">⌁</span></div><p id="languageCount" class="mt-3 text-3xl font-bold tabular-nums">8+</p><p class="mt-1 text-[11px] text-slate-500">Según los repositorios</p></div>
+          </div>
+        </section>
+
+        <section class="mt-9" id="repositories">
+          <div class="mb-5 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+            <div><p class="text-[10px] font-bold uppercase tracking-[.18em] text-accent">Explorador</p><h3 class="mt-1 text-xl font-bold">Todos los repositorios</h3><p class="mt-1 text-xs text-muted">Filtrá por área o buscá un proyecto por nombre.</p></div>
+            <label class="relative block w-full sm:max-w-xs">
+              <span class="pointer-events-none absolute inset-y-0 left-3 flex items-center text-slate-500">⌕</span>
+              <input id="searchInput" type="search" placeholder="Buscar repositorio..." class="w-full rounded-xl border border-line bg-panel py-3 pl-9 pr-4 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-accent/70 focus:ring-2 focus:ring-accent/10" />
+            </label>
+          </div>
+          <div class="mb-4 flex flex-wrap items-center justify-between gap-2">
+            <p id="resultsLabel" class="text-xs text-muted">Mostrando 16 proyectos</p>
+            <button id="clearFilters" class="text-xs font-medium text-accent transition hover:text-white">Limpiar filtros ↺</button>
+          </div>
+          <div id="repoGrid" class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3"></div>
+          <div id="emptyState" class="hidden rounded-2xl border border-dashed border-line bg-panel/40 px-6 py-14 text-center"><div class="text-3xl">⌕</div><p class="mt-3 font-semibold">No encontramos resultados</p><p class="mt-1 text-sm text-muted">Probá con otro término o categoría.</p></div>
+        </section>
+
+        <footer class="mt-12 flex flex-col justify-between gap-2 border-t border-line/80 py-6 text-xs text-slate-500 sm:flex-row"><p>© <span id="year"></span> agugus1 · Portfolio de GitHub</p><p>Hecho para explorar, aprender y compartir.</p></footer>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Catálogo local: funciona como respaldo si la API de GitHub no responde.
+    const localRepos = [
+      { name:'ejercicio', category:'General', language:'Python', description:'Ejercicios prácticos para afianzar conceptos de programación y lógica.', url:'https://github.com/agugus1/ejercicio' },
+      { name:'IA', category:'Python', language:'Python', description:'Exploración de herramientas, conceptos y prácticas vinculadas con inteligencia artificial.', url:'https://github.com/agugus1/IA' },
+      { name:'graficas-seaborn', category:'Python', language:'Python', description:'Visualización y análisis de datos en Python mediante gráficos creados con Seaborn.', url:'https://github.com/agugus1/graficas-seaborn', featured:true },
+      { name:'recursividad', category:'Python', language:'Python', description:'Prácticas de programación recursiva y resolución de problemas mediante funciones.', url:'http://github.com/agugus1/recursividad' },
+      { name:'ESP32', category:'Hardware/ESP32', language:'C++', description:'Proyectos con microcontroladores ESP32, electrónica, sensores y conceptos de IoT.', url:'https://github.com/agugus1/ESP32', featured:true },
+      { name:'pront', category:'General', language:'—', description:'Repositorio de pruebas y recursos de trabajo en desarrollo.', url:'https://github.com/agugus1/pront' },
+      { name:'huerta2', category:'Hardware/ESP32', language:'—', description:'Continuación de experiencias de monitoreo y gestión de una huerta.', url:'https://github.com/agugus1/huerta2' },
+      { name:'huerta', category:'Hardware/ESP32', language:'—', description:'Sistema orientado al seguimiento y la gestión de una huerta, con posibles sensores y automatización.', url:'https://github.com/agugus1/huerta' },
+      { name:'prueba', category:'General', language:'—', description:'Espacio de experimentación para probar código, ideas y configuraciones.', url:'https://github.com/agugus1/prueba' },
+      { name:'agugus1.github.io', category:'HTML/CSS', language:'HTML', description:'Sitio web personal publicado mediante GitHub Pages.', url:'https://github.com/agugus1/agugus1.github.io' },
+      { name:'agugus1', category:'General', language:'—', description:'Repositorio de perfil: presentación y configuración del espacio personal en GitHub.', url:'https://github.com/agugus1/agugus1' },
+      { name:'php', category:'PHP', language:'PHP', description:'Prácticas y desarrollos iniciales utilizando PHP del lado del servidor.', url:'https://github.com/agugus1/php' },
+      { name:'html', category:'HTML/CSS', language:'HTML', description:'Ejercicios y estructuras para aprender desarrollo web con HTML.', url:'https://github.com/agugus1/html' },
+      { name:'Bootstap', category:'HTML/CSS', language:'HTML', description:'Prácticas de diseño web utilizando componentes y utilidades de Bootstrap.', url:'https://github.com/agugus1/Bootstap' },
+      { name:'Repaso', category:'General', language:'—', description:'Material de repaso y ejercicios para reforzar conocimientos de programación.', url:'https://github.com/agugus1/Repaso' },
+      { name:'MarkDown', category:'General', language:'Markdown', description:'Apuntes y ejemplos de escritura y formato de documentos con Markdown.', url:'https://github.com/agugus1/MarkDown' }
+    ];
+
+    const categories = ['Todos','Python','HTML/CSS','Hardware/ESP32','PHP','General'];
+    const categoryIcons = { Todos:'◫', Python:'⌘', 'HTML/CSS':'◇', 'Hardware/ESP32':'⌁', PHP:'▤', General:'✳' };
+    let repos = [...localRepos];
+    let activeCategory = 'Todos';
+    let searchTerm = '';
+
+    const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const slug = value => String(value).toLowerCase().replace(/[^a-z0-9]+/g,'-');
+
+    function renderFilters() {
+      const counts = Object.fromEntries(categories.map(c => [c, c === 'Todos' ? repos.length : repos.filter(r => r.category === c).length]));
+      document.getElementById('filters').innerHTML = categories.map(c => `
+        <button data-category="${esc(c)}" class="filter-btn flex items-center justify-between rounded-xl border border-transparent px-3 py-2.5 text-left text-xs transition hover:bg-white/5 ${activeCategory===c?'active-filter':''}">
+          <span class="flex items-center gap-3"><span class="w-4 text-center text-sm">${categoryIcons[c]}</span>${esc(c)}</span>
+          <span class="text-[10px] ${activeCategory===c?'text-indigo-200':'text-slate-500'}">${counts[c] || 0}</span>
+        </button>`).join('');
+      document.getElementById('categoryCount').textContent = `${repos.length} proyectos`;
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.addEventListener('click', () => {
+        activeCategory = btn.dataset.category; renderFilters(); renderRepos();
+      }));
+    }
+
+    function card(repo) {
+      const language = repo.language || 'Sin especificar';
+      const featured = repo.featured || repo.name.toLowerCase() === 'graficas-seaborn';
+      const colors = { Python:'text-sky-300 bg-sky-300/10 border-sky-300/20', 'C++':'text-violet-300 bg-violet-300/10 border-violet-300/20', HTML:'text-orange-300 bg-orange-300/10 border-orange-300/20', CSS:'text-blue-300 bg-blue-300/10 border-blue-300/20', PHP:'text-indigo-300 bg-indigo-300/10 border-indigo-300/20', Markdown:'text-slate-300 bg-slate-300/10 border-slate-300/20' };
+      const color = colors[language] || 'text-slate-300 bg-slate-300/10 border-slate-300/20';
+      return `<article class="repo-card fade-in relative flex min-h-[224px] flex-col rounded-2xl border ${featured?'border-amber-300/30 bg-gradient-to-br from-amber-300/[.07] to-panel':'border-line bg-panel/75'} p-5">
+        ${featured?'<div class="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full border border-amber-300/25 bg-amber-300/10 px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-amber-200">✦ Destacado</div>':''}
+        <div class="mb-4 flex items-start gap-3 ${featured?'pr-24':''}">
+          <div class="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-white/10 bg-white/[.04] text-sm font-bold text-slate-300">${esc(repo.name.slice(0,2).toUpperCase())}</div>
+          <div class="min-w-0"><h4 class="break-all text-sm font-bold text-white">${esc(repo.name)}</h4><p class="mt-1 text-[10px] text-slate-500">${esc(repo.category)}</p></div>
+        </div>
+        <p class="clamp-2 min-h-[40px] text-xs leading-5 text-muted">${esc(repo.description || 'Repositorio público de GitHub.')}</p>
+        <div class="mt-4 flex items-center justify-between gap-2">
+          <span class="rounded-full border px-2.5 py-1 text-[10px] font-semibold ${color}">${esc(language)}</span>
+          <span class="text-[10px] text-slate-500">${repo.stars != null ? '★ '+repo.stars : 'Repositorio público'}</span>
+        </div>
+        <a href="${esc(repo.url)}" target="_blank" rel="noopener noreferrer" class="mt-4 flex items-center justify-center gap-2 rounded-xl border border-line bg-white/[.03] px-3 py-2.5 text-xs font-semibold text-slate-200 transition hover:border-accent/50 hover:bg-accent/10 hover:text-white">Ver código en GitHub <span class="text-accent">↗</span></a>
+      </article>`;
+    }
+
+    function renderRepos() {
+      const filtered = repos.filter(r => (activeCategory==='Todos' || r.category===activeCategory) &&
+        `${r.name} ${r.description} ${r.language} ${r.category}`.toLowerCase().includes(searchTerm));
+      document.getElementById('repoGrid').innerHTML = filtered.map(card).join('');
+      document.getElementById('emptyState').classList.toggle('hidden', filtered.length !== 0);
+      document.getElementById('repoGrid').classList.toggle('hidden', filtered.length === 0);
+      document.getElementById('resultsLabel').textContent = `Mostrando ${filtered.length} de ${repos.length} proyectos`;
+      document.getElementById('totalRepos').textContent = repos.length;
+      const langs = new Set(repos.map(r=>r.language).filter(l=>l && l!=='—'));
+      document.getElementById('languageCount').textContent = `${langs.size}+`;
+    }
+
+    document.getElementById('searchInput').addEventListener('input', e => {
+      searchTerm = e.target.value.trim().toLowerCase(); renderRepos();
+    });
+    document.getElementById('clearFilters').addEventListener('click', () => {
+      activeCategory='Todos'; searchTerm=''; document.getElementById('searchInput').value='';
+      renderFilters(); renderRepos();
+    });
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Actualiza metadatos desde GitHub. Si falla la conexión, se conserva el catálogo local.
+    async function syncGitHub() {
+      const status = document.getElementById('syncStatus');
+      try {
+        const response = await fetch('https://api.github.com/users/agugus1/repos?per_page=100&sort=updated', {
+          headers: { 'Accept':'application/vnd.github+json' }
+        });
+        if (!response.ok) throw new Error(`GitHub API: ${response.status}`);
+        const liveRepos = await response.json();
+        const byName = new Map(liveRepos.map(r => [r.name.toLowerCase(), r]));
+        repos = localRepos.map(local => {
+          const live = byName.get(local.name.toLowerCase());
+          return live ? {
+            ...local,
+            language: live.language || local.language,
+            url: live.html_url || local.url,
+            stars: live.stargazers_count,
+            description: local.description || live.description || 'Repositorio público de GitHub.'
+          } : local;
+        });
+        status.innerHTML = '<span class="h-1.5 w-1.5 rounded-full bg-emerald-400"></span> Sincronizado con GitHub';
+      } catch (error) {
+        repos = [...localRepos];
+        status.innerHTML = '<span class="h-1.5 w-1.5 rounded-full bg-amber-400"></span> Datos locales · API no disponible';
+        console.info('Se utiliza el catálogo local como respaldo.', error);
+      }
+      renderFilters(); renderRepos();
+    }
+
+    renderFilters();
+    renderRepos();
+    syncGitHub();
+  </script>
+</body>
+</html>
